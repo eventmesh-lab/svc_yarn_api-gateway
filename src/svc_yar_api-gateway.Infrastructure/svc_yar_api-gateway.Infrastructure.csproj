@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\svc_yar_api_gateway.Domain\svc_yar_api_gateway.Domain.csproj" />
+    <ProjectReference Include="..\svc_yar_api-gateway.Domain\svc_yar_api-gateway.Domain.csproj" />
   </ItemGroup>
 
 </Project>

@@ -8,13 +8,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\svc_yar_api_gateway.Application\svc_yar_api_gateway.Application.csproj" />
-    <ProjectReference Include="..\svc_yar_api_gateway.Domain\svc_yar_api_gateway.Domain.csproj" />
-    <ProjectReference Include="..\svc_yar_api_gateway.Infrastructure\svc_yar_api_gateway.Infrastructure.csproj" />
+    <ProjectReference Include="..\svc_yar_api-gateway.Application\svc_yar_api-gateway.Application.csproj" />
+    <ProjectReference Include="..\svc_yar_api-gateway.Domain\svc_yar_api-gateway.Domain.csproj" />
+    <ProjectReference Include="..\svc_yar_api-gateway.Infrastructure\svc_yar_api-gateway.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.15" />
   </ItemGroup>
 
 </Project>
