@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>svc_yar_api_gateway.Api</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\svc_yar_api_gateway.Application\svc_yar_api_gateway.Application.csproj" />
+    <ProjectReference Include="..\svc_yar_api_gateway.Domain\svc_yar_api_gateway.Domain.csproj" />
+    <ProjectReference Include="..\svc_yar_api_gateway.Infrastructure\svc_yar_api_gateway.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+  </ItemGroup>
+
+</Project>
