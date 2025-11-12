@@ -1,74 +1,105 @@
-# Plantilla svc_yar_api_gateway Hexagonal (dotnet)
+# svc_yarn_api-gateway
 
-Plantilla para generar un microservicio con arquitectura Hexagonal (Ports & Adapters) en .NET.
+Este microservicio es el API Gateway para el proyecto EventMesh, implementado con arquitectura Hexagonal (Ports & Adapters) en .NET 8.0. Actúa como un proxy y punto de entrada para los eventos y servicios relacionados.
 
-Estructura creada:
+## Arquitectura
 
-- src/
-  - svc_yar_api_gateway.Domain/
-  - svc_yar_api_gateway.Application/
-  - svc_yar_api_gateway.Infrastructure/
-  - svc_yar_api_gateway.Api/
-- tests/
-  - svc_yar_api_gateway.Domain.Tests/
-  - svc_yar_api_gateway.Application.Tests/
-  - svc_yar_api_gateway.Infrastructure.IntegrationTests/
-- .template.config/template.json
+El proyecto sigue la arquitectura Hexagonal, dividida en capas:
 
-Cómo usar este repositorio como template
+- **Domain**: Contiene las entidades de negocio y puertos (interfaces) para la lógica de dominio.
+- **Application**: Implementa los casos de uso y la lógica de aplicación.
+- **Infrastructure**: Proporciona implementaciones concretas de los puertos, como repositorios en memoria.
+- **Api**: Contiene los controladores REST, configuración de Swagger/OpenAPI y el punto de entrada de la aplicación.
 
-Hay dos formas comunes de usar este repo como plantilla:
+## Estructura del Proyecto
 
-1) Usar el repositorio como "GitHub Template" (recomendado si publicas en GitHub):
-   - En GitHub configura el repositorio como "Template repository" (Settings → Template repository) o usa el botón "Use this template" para crear un nuevo repo basado en esta plantilla.
-   - Clona el repo resultante localmente y sigue la sección "Instalación local" abajo para instalar el template en tu máquina.
-
-2) Instalación local directa (desarrollo / pruebas):
-   - Clona este repositorio y luego instala la plantilla desde la carpeta del repo:
-
-```bash
-git clone https://github.com/<owner>/svc_yar_api_gateway-hexagonal-template-.git
-cd svc_yar_api_gateway-hexagonal-template-
-# Instalar la plantilla localmente (SDK moderno):
-dotnet new install .
-# Si ya la tienes instalada y quieres forzar la actualización:
-dotnet new install . --force
+``` bash
+src/
+├── svc_yarn_api-gateway.Api/          # Capa de API (controladores, configuración)
+├── svc_yarn_api-gateway.Application/  # Capa de aplicación (casos de uso)
+├── svc_yarn_api-gateway.Domain/       # Capa de dominio (entidades, puertos)
+└── svc_yarn_api-gateway.Infrastructure/ # Capa de infraestructura (repositorios)
+tests/
+├── svc_yarn_api-gateway.Application.Tests/
+├── svc_yarn_api-gateway.Domain.Tests/
+└── svc_yarn_api-gateway.Infrastructure.IntegrationTests/
 ```
 
-Ver las plantillas instaladas:
+## Requisitos
+
+- .NET 8.0 SDK
+- Docker (opcional, para ejecución en contenedores)
+
+## Instalación y Ejecución
+
+### Usando Docker Compose
+
+Para ejecutar el servicio en un entorno de contenedores:
 
 ```bash
-dotnet new list
+docker-compose up
 ```
 
-Generar un nuevo microservicio desde la plantilla
+### Ejecución Local
+
+1. Restaura las dependencias:
+
+   ```bash
+   dotnet restore
+   ```
+
+2. Construye el proyecto:
+
+   ```bash
+   dotnet build
+   ```
+
+3. Ejecuta la aplicación:
+
+   ```bash
+   dotnet run --project src/svc_yar_api-gateway.Api
+   ```
+
+La API estará disponible en `http://localhost:5000` (o el puerto configurado en `appsettings.json`).
+
+## API Endpoints
+
+La documentación de la API se genera automáticamente con Swagger/OpenAPI. Una vez ejecutada la aplicación, visita `http://localhost:5000/swagger` para explorar los endpoints.
+
+Principales controladores:
+
+- `EventsProxyController`: Proxy para eventos.
+- `MockEventosController`: Controlador de mock para eventos (probablemente para desarrollo/pruebas).
+
+Para más detalles, consulta el archivo `openapi.yaml` en `src/svc_yar_api-gateway.Api/`.
+
+## Pruebas
+
+El proyecto incluye pruebas unitarias e de integración. Para ejecutar todas las pruebas:
 
 ```bash
-# Crea el microservicio (reemplaza "Orders" por el nombre que desees):
-dotnet new svc_yar_api_gateway-hex -n Orders -o ./Orders --framework net8.0
-
-cd Orders
-dotnet restore
-dotnet build
+dotnet test
 ```
 
-Notas importantes
-- El template usa `svc_yar_api_gateway` como `sourceName`; al generar el proyecto ese token se sustituye por el nombre que pases con `-n`.
-- Los .csproj contienen el token `net8.0` que se sustituye por el valor del parámetro `--framework` (por defecto `net8.0`).
-- Si la plantilla está instalada globalmente y haces cambios locales, reinstálala con `--force`.
+Para más información sobre las pruebas, consulta el archivo `TESTING.md`.
 
-Desinstalar la plantilla (opcional)
+## Configuración
 
-```bash
-# Si la instalaste desde una carpeta local, puedes desinstalar usando la misma ruta o el identificador usado al instalar.
-dotnet new uninstall /path/to/svc_yar_api_gateway-hexagonal-template-
-# (o) desinstalar por paquete si lo subiste a un feed: dotnet new uninstall <package-or-feed>
-```
+- `appsettings.json`: Configuración general.
+- `appsettings.Development.json`: Configuración específica para desarrollo.
 
-Problemas comunes
-- Si ves errores al compilar la API relacionados con Swagger, asegúrate de restaurar paquetes; la plantilla incluye `Swashbuckle.AspNetCore` por defecto.
-- Si el comando `dotnet new svc_yar_api_gateway-hex` no aparece tras instalar, ejecuta `dotnet new install . --force` y verifica con `dotnet new list`.
+Asegúrate de configurar las variables necesarias, como conexiones a bases de datos o servicios externos, según el entorno.
 
-¿Qué sigue?
-- Puedes solicitar que añada un `.sln` a la plantilla, workflows de CI (GitHub Actions) que verifiquen la generación y build, o parámetros adicionales para incluir EF Core / mensajería a la carta.
+## Contribución
 
+Para contribuir:
+
+1. Crea una rama para tu feature/bugfix.
+2. Implementa los cambios siguiendo la arquitectura Hexagonal.
+3. Añade pruebas para nuevos casos de uso.
+4. Ejecuta las pruebas y asegura que pasen.
+5. Crea un pull request.
+
+## Licencia
+
+Este proyecto está bajo la licencia especificada en el repositorio raíz de EventMesh.
