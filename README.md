@@ -15,14 +15,14 @@ El proyecto sigue la arquitectura Hexagonal, dividida en capas:
 
 ``` bash
 src/
-├── svc_yarn_api-gateway.Api/          # Capa de API (controladores, configuración)
-├── svc_yarn_api-gateway.Application/  # Capa de aplicación (casos de uso)
-├── svc_yarn_api-gateway.Domain/       # Capa de dominio (entidades, puertos)
-└── svc_yarn_api-gateway.Infrastructure/ # Capa de infraestructura (repositorios)
+├── svc_yarp_api-gateway.Api/          # Capa de API (controladores, configuración)
+├── svc_yarp_api-gateway.Application/  # Capa de aplicación (casos de uso)
+├── svc_yarp_api-gateway.Domain/       # Capa de dominio (entidades, puertos)
+└── svc_yarp_api-gateway.Infrastructure/ # Capa de infraestructura (repositorios)
 tests/
-├── svc_yarn_api-gateway.Application.Tests/
-├── svc_yarn_api-gateway.Domain.Tests/
-└── svc_yarn_api-gateway.Infrastructure.IntegrationTests/
+├── svc_yarp_api-gateway.Application.Tests/
+├── svc_yarp_api-gateway.Domain.Tests/
+└── svc_yarp_api-gateway.Infrastructure.IntegrationTests/
 ```
 
 ## Requisitos
