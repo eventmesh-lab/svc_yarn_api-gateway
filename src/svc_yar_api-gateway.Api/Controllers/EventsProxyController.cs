@@ -304,7 +304,7 @@ namespace svc_yar_api_gateway.Api.Controllers
                     requestMessage.Headers.Add("Authorization", authHeader.ToString());
                 }
 
-                _logger.LogInformation("Proxying {Method} request to eventos service: {Path}", method, fullPath);
+                _logger.LogInformation("Proxying {Method} request to eventos service: {Path}", method, SanitizeForLog(fullPath));
 
                 var response = await client.SendAsync(requestMessage);
                 var content = await response.Content.ReadAsStringAsync();
@@ -314,7 +314,7 @@ namespace svc_yar_api_gateway.Api.Controllers
                     _logger.LogWarning(
                         "Eventos service returned error status {StatusCode} for path {Path}",
                         response.StatusCode,
-                        fullPath);
+                        SanitizeForLog(fullPath));
                 }
 
                 return new ContentResult
@@ -378,7 +378,7 @@ namespace svc_yar_api_gateway.Api.Controllers
                     requestMessage.Headers.Add("Authorization", authHeader.ToString());
                 }
 
-                _logger.LogInformation("Proxying {Method} request with body to eventos service: {Path}", method, fullPath);
+                _logger.LogInformation("Proxying {Method} request with body to eventos service: {Path}", method, SanitizeForLog(fullPath));
 
                 var response = await client.SendAsync(requestMessage);
                 var content = await response.Content.ReadAsStringAsync();
@@ -388,7 +388,7 @@ namespace svc_yar_api_gateway.Api.Controllers
                     _logger.LogWarning(
                         "Eventos service returned error status {StatusCode} for path {Path}",
                         response.StatusCode,
-                        fullPath);
+                        SanitizeForLog(fullPath));
                 }
 
                 // Forward Location header if present (useful for 202 Accepted responses)
@@ -419,6 +419,18 @@ namespace svc_yar_api_gateway.Api.Controllers
                 _logger.LogError(ex, "Unexpected error in ProxyRequestWithBody");
                 return StatusCode(500, new { error = "Error interno del servidor" });
             }
+        }
+
+        /// <summary>
+        /// Sanitize string for logging to prevent log injection attacks
+        /// </summary>
+        private static string SanitizeForLog(string input)
+        {
+            if (string.IsNullOrEmpty(input))
+                return input;
+
+            // Remove newlines and carriage returns to prevent log injection
+            return input.Replace("\r", "").Replace("\n", "");
         }
     }
 }
