@@ -137,7 +137,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+var enableHttpsRedirection = app.Configuration.GetValue("EnableHttpsRedirection", true);
+if (enableHttpsRedirection)
+{
+    app.UseHttpsRedirection();
+}
 
 /*app.Use(async (context, next) =>
 {
