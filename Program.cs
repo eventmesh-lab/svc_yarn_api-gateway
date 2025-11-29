@@ -44,10 +44,10 @@ builder.Services.AddRateLimiter(options =>
     options.LoginPath = "/Account/Login";
     options.LogoutPath = "/Account/Logout";
     options.Cookie.Name = "Auth";
-    // Expira después de 30 minutos de inactividad
+    // Expira despuÃ©s de 30 minutos de inactividad
     options.ExpireTimeSpan = TimeSpan.FromMinutes(2);
 
-    // Renueva la cookie si el usuario está activo
+    // Renueva la cookie si el usuario estÃ¡ activo
     options.SlidingExpiration = true;
 
     // Evento para manejar acceso denegado
@@ -61,7 +61,7 @@ builder.Services.AddRateLimiter(options =>
             if (expiresUtc.HasValue && expiresUtc.Value < now)
             {
                 Console.WriteLine("La cookie ha expirado.");
-                // La cookie expiró: cerrar sesión
+                // La cookie expirÃ³: cerrar sesiÃ³n
                 await context.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
                 Console.WriteLine("La sesion ha expirado.");
             }
